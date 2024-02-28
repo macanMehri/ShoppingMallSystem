@@ -1,5 +1,6 @@
 from CONSTANTS import CURRENT_YEAR
 import jdatetime
+from product import Product
 
 
 
@@ -32,8 +33,9 @@ class Customer:
         """
         Showing products list that customer has purchased
         """
+        print(f'Customer :\n{self}\nbought these:')
         for product in self.bought_products:
-            print(f'{product['Product']} : {str(product['Date'])}')
+            print(f'{product['Product']}\nPurchased date: {str(product['Date'])}')
 
     @property
     def full_name(self) -> str:
@@ -51,14 +53,14 @@ class Customer:
         return CURRENT_YEAR - self.birth_year
 
 
-    def buy_product(self, product_name: str, date: jdatetime.date):
+    def buy_product(self, product: Product, date: jdatetime.date):
         """
         Customer buys a product
         Includes id of product and time that customer bought product
         """
         self.bought_products.append(
             {
-                'Product': product_name,
+                'Product': product,
                 'Date': date
             }
         )
@@ -113,12 +115,12 @@ if __name__ == '__main__':
     )
 
     c1.buy_product(
-        product_name='Pen',
+        product=Product('Pen', 1, 25000),
         date=jdatetime.datetime.now().date()
     )
 
     c1.buy_product(
-        product_name='Book',
+        product=Product('Book', 2, 98000),
         date=jdatetime.date(day=22, month=11, year=1400)
     )
 
