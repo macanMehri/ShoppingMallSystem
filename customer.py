@@ -74,26 +74,79 @@ class Customer:
         return len(self.bought_products)
 
 
-    def purchase_each_month(self) -> list:
+    def purchase_each_month_of_year(self, product: str):
         """
         Calculates number of purchases for each month in a year
         """
+        number_each_month = list()
+
+        for i in range(12):
+            if i == 11:
+                start_month = 12
+                stop_month = 1
+                year = CURRENT_YEAR
+            else:
+                year = CURRENT_YEAR - 1
+                start_month = i + 1
+                stop_month = i + 2
+
+            start = jdatetime.date(
+                year=year,
+                month=start_month,
+                day=1
+            )
+            stop = jdatetime.date(
+                year=year,
+                month=stop_month,
+                day=1
+            )
+
+            number_each_month.append(
+                self.purchase_in_time(
+                    start=start,
+                    stop=stop,
+                    product=product
+                )
+            )
+
+        return number_each_month
+
+
+    def find_product_in_purchased(self, product: str) -> list:
+        """
+        find all items of the product in bought list
+        """
+        result = list()
+
+        for purchased in self.bought_products:
+            if purchased['Product'].product_name == product:
+                result.append(purchased)
+
+        return result
 
 
 
-    def purchase_in_time(self, start: jdatetime.date, stop: jdatetime.date) -> int:
+
+    def purchase_in_time(
+        self,
+        start: jdatetime.date,
+        stop: jdatetime.date,
+        product: Product
+    ) -> int:
         """
         Calculate number of purchases between start date and stop date
         """
         count = 0
-        for purchase in self.bought_products:
+        product_purchased = self.find_product_in_purchased(product=product)
+
+        for purchase in product_purchased:
             if start.year < purchase['Date'].year < stop.year:
                 count += 1
             elif start.year == purchase['Date'].year:
-                if start.month < purchase['Date'].month:
+                if start.month < purchase['Date'].month < stop.month:
                     count += 1
                 elif start.month == purchase['Date'].month:
-                    if start.day < purchase['Date'].day:
+                    if start.day <= purchase['Date'].day:
                         count += 1
             elif stop.year == purchase['Date'].year:
                 if start.month > purchase['Date'].month:
@@ -115,13 +168,30 @@ if __name__ == '__main__':
     )
 
     c1.buy_product(
-        product=Product('Pen', 1, 25000),
+        product=Product('Book', 1, 25000),
         date=jdatetime.datetime.now().date()
     )
 
     c1.buy_product(
-        product=Product('Book', 2, 98000),
-        date=jdatetime.date(day=22, month=11, year=1400)
+        product=Product('Book', 1, 98000),
+        date=jdatetime.date(day=22, month=11, year=1401)
+    )
+    c1.buy_product(
+        product=Product('Book', 1, 98000),
+        date=jdatetime.date(day=22, month=12, year=1401)
+    )
+    c1.buy_product(
+        product=Product('Book', 1, 98000),
+        date=jdatetime.date(day=25, month=1, year=1401)
+    )
+    c1.buy_product(
+        product=Product('Book', 1, 98000),
+        date=jdatetime.date(day=5, month=3, year=1401)
+    )
+    c1.buy_product(
+        product=Product('Book', 1, 98000),
+        date=jdatetime.date(day=1, month=10, year=1401)
     )
 
-    c1.show_purchased_list()
+    result = c1.purchase_each_month_of_year(product=Product('Book', 1, 98000))
+    print(result)
