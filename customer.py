@@ -24,7 +24,7 @@ class Customer:
         """Override string method"""
         message = (
             f'Name: {self.full_name}\nBirthday: {self.birth_year}\n'
-            f'ID: {self.customer_id}'
+            f'Age: {self.age}\nID: {self.customer_id}'
         )
         return message
 
