@@ -1,3 +1,4 @@
+from CONSTANTS import CURRENT_YEAR
 from customer import Customer
 from product import Product
 import jdatetime
@@ -35,8 +36,7 @@ class ShoppingMall:
         This function print all purchased products in the shopping mall
         """
         for purchase in self.purchases:
-            print(purchase['Product'])
-            print(f'Number of purchased: {purchase['Purchases']}')
+            print(f'{purchase['Product']} : {purchase['Purchases']}')
 
 
     def add_customer(self, customer: Customer):
@@ -54,7 +54,8 @@ class ShoppingMall:
         self.purchases.append(
             {
                 'Product': product,
-                'Purchases': 0
+                'Purchases': 0,
+                'Date': None
             }
         )
 
@@ -78,7 +79,6 @@ class ShoppingMall:
         for purchase in self.purchases:
             if purchase['Product'].product_id == product.product_id:
                 purchase['Purchases'] += 1
-
 
 
 if __name__ == '__main__':
