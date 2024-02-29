@@ -14,6 +14,11 @@ class Product:
         return f'ID: {self.product_id}\nName: {self.product_name}\nPrice: {self.product_price}'
 
 
+    def change_product_price(self, new_price: float):
+        """Change a product price"""
+        self.product_price = new_price
+
+
 if __name__ == '__main__':
     product1 = Product(
         product_name='Pen',
