@@ -4,6 +4,8 @@ from product import Product
 from shopping_mall import ShoppingMall
 import random
 from CONSTANTS import CURRENT_YEAR
+import jdatetime
+from operator import add
 
 
 names = [
@@ -44,10 +46,12 @@ def create_random_customers(mall: ShoppingMall) -> None:
 
 def create_products(mall: ShoppingMall) -> None:
     """Create products for shopping mall"""
-    for i in range(len(product_names)):
+    product_length = len(product_names)
+
+    for i in range(product_length):
         name = product_names[i]
         price = random.randint(100_000, 5_000_000)
-        
+
         product = Product(
             product_name=name,
             product_price=price,
@@ -57,11 +61,50 @@ def create_products(mall: ShoppingMall) -> None:
         mall.add_product(product=product)
 
 
+def customer_buy_random(mall: ShoppingMall) -> None:
+    """Random customers buy random products"""
+    for i in range(10_000):
+        customer = random.choice(mall.customers)
+        product = random.choice(mall.products)
+
+        day = random.randint(1, 29)
+        month = random.randint(1, 12)
+        year = random.randint(1400, CURRENT_YEAR)
+
+        mall.customer_buy_product(
+            customer=customer,
+            product=product,
+            date=jdatetime.date(
+                year=year,
+                month=month,
+                day=day
+            )
+        )
+
+
+def each_month(product: str, mall: ShoppingMall) -> None:
+    """See each month purchase of a product"""
+    final_result = [0] * 12
+    for customer in mall.customers:
+        result = customer.purchase_each_month_of_year(product=product)
+        final_result = list(map(add, final_result, result))
+
+    return final_result
+
+
 if __name__ == '__main__':
     # Create random customers
     mall = ShoppingMall()
     create_products(mall=mall)
     create_random_customers(mall=mall)
+    customer_buy_random(mall=mall)
 
-    mall.show_customers()
-    mall.show_products()
+    #mall.show_customers()
+    #mall.show_products()
+    mall.show_purchases()
+
+    product_name = input(
+        'Please enter a product name to see products sells each month for a year: '
+    )
+    purchases_each_month = each_month(product=product_name, mall=mall)
+    print(purchases_each_month)
