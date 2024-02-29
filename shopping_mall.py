@@ -30,6 +30,15 @@ class ShoppingMall:
             print(product)
 
 
+    def show_purchases(self) -> None:
+        """
+        This function print all purchased products in the shopping mall
+        """
+        for purchase in self.purchases:
+            print(purchase['Product'])
+            print(f'Number of purchased: {purchase['Purchases']}')
+
+
     def add_customer(self, customer: Customer):
         """
         Add new customer to the shopping mall list
