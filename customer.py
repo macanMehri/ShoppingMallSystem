@@ -125,6 +125,13 @@ class Customer:
         return result
 
 
+    def number_of_product_purchases(self, product: Product) -> int:
+        """Calculate how much customer buys the product"""
+        count = 0
+        for purchase in self.bought_products:
+            if purchase['Product'].product_id == product.product_id:
+                count += 1
+        return count
 
 
     def purchase_in_time(
@@ -159,39 +166,4 @@ class Customer:
 
 
 if __name__ == '__main__':
-
-    c1 = Customer(
-        first_name='Macan',
-        last_name='Mehri',
-        birth_year=1380,
-        customer_id=1
-    )
-
-    c1.buy_product(
-        product=Product('Book', 1, 25000),
-        date=jdatetime.datetime.now().date()
-    )
-
-    c1.buy_product(
-        product=Product('Book', 1, 98000),
-        date=jdatetime.date(day=22, month=11, year=1401)
-    )
-    c1.buy_product(
-        product=Product('Book', 1, 98000),
-        date=jdatetime.date(day=22, month=12, year=1401)
-    )
-    c1.buy_product(
-        product=Product('Book', 1, 98000),
-        date=jdatetime.date(day=25, month=1, year=1401)
-    )
-    c1.buy_product(
-        product=Product('Book', 1, 98000),
-        date=jdatetime.date(day=5, month=3, year=1401)
-    )
-    c1.buy_product(
-        product=Product('Book', 1, 98000),
-        date=jdatetime.date(day=1, month=10, year=1401)
-    )
-
-    result = c1.purchase_each_month_of_year(product=Product('Book', 1, 98000))
-    print(result)
+    pass
