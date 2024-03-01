@@ -60,6 +60,24 @@ class ShoppingMall:
         )
 
 
+    def find_customer_by_id(self, customer_id: int) -> Customer:
+        """
+        Find a custumer by customer id
+        """
+        for customer in self.customers:
+            if customer.customer_id == customer_id:
+                return customer
+
+
+    def find_product_by_id(self, product_id: int) -> Product:
+        """
+        Find a product by product id
+        """
+        for product in self.products:
+            if product.product_id == product_id:
+                return product
+
+
     def customer_buy_product(self, customer: Customer, product: Product, date: jdatetime.date):
         """
         A customer purchases a product

@@ -63,6 +63,11 @@ def create_products(mall: ShoppingMall) -> None:
         mall.add_product(product=product)
 
 
+def change_product_price(product: Product, new_price: float, date: jdatetime.date) -> None:
+    """Change a product price"""
+    product.change_product_price(new_price=new_price, date=date)
+
+
 def customer_buy_random(mall: ShoppingMall) -> None:
     """Random customers buy random products"""
     for i in range(10_000):
