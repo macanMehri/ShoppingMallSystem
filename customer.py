@@ -37,6 +37,7 @@ class Customer:
         for product in self.bought_products:
             print(f'{product['Product']}\nPurchased date: {str(product['Date'])}')
 
+
     @property
     def full_name(self) -> str:
         """
@@ -123,6 +124,28 @@ class Customer:
                 result.append(purchased)
 
         return result
+
+
+    def total_money_spent_monthly(self) -> list:
+        """Return a list of total spent money of each month of last year"""
+        money_each_month = list()
+
+        for i in range(12):
+            monthly = self.total_money_spent_in_month(i+1)
+            money_each_month.append(monthly)
+
+        return money_each_month
+
+
+    def total_money_spent_in_month(self, month: int) -> float:
+        """Returns total money spent in a month"""
+        total_money = 0
+        for purchase in self.bought_products:
+            if purchase['Date'].month == month and purchase['Date'].year == CURRENT_YEAR:
+                total_money += purchase['Product'].product_price
+
+        return total_money
+
 
 
     def number_of_product_purchases(self, product: Product) -> int:
