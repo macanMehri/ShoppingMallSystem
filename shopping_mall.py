@@ -190,5 +190,26 @@ class ShoppingMall:
         return total_purchase
 
 
+
+    def earning_in_a_month(self, month: int) -> int:
+        """Returns total earnings of a month"""
+        total_erning = 0
+        for receipt in self.receipts:
+            if receipt['Date'].month == month and receipt['Date'].year == CURRENT_YEAR:
+                total_erning += receipt['Product'].product_price
+
+        return total_erning
+
+
+    def each_month_earnings(self) -> list:
+        """Returns a list of total earnings of a month in last year"""
+        result = list()
+        for month in range(12):
+            earnings = self.earning_in_a_month(month=month+1)
+            result.append(earnings)
+
+        return result
+
+
 if __name__ == '__main__':
     pass
