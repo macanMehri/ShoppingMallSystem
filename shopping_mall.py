@@ -65,6 +65,16 @@ class ShoppingMall:
         )
 
 
+    def number_of_custmer_product_purchases(self, customer: Customer) -> list:
+        """Returns a list of numbers that shows you number of purchases of each product"""
+        result = list()
+        for product in self.products:
+            count = customer.number_of_product_purchases(product=product)
+            result.append(count)
+
+        return result
+
+
     def find_customer_by_id(self, customer_id: int) -> Customer:
         """
         Find a custumer by customer id
