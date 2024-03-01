@@ -1,4 +1,3 @@
-from CONSTANTS import CURRENT_YEAR
 from customer import Customer
 from product import Product
 import jdatetime
@@ -13,6 +12,9 @@ class ShoppingMall:
         # A list of dictionaries of purchases
         # Every item has a product and number of purchases
         self.purchases = list()
+        # A list of dictionaries
+        # Receipt of each purchase
+        self.receipts = list()
 
 
     def show_customers(self) -> None:
@@ -33,10 +35,21 @@ class ShoppingMall:
 
     def show_purchases(self) -> None:
         """
-        This function print all purchased products in the shopping mall
+        This function prints all purchased products in the shopping mall
         """
         for purchase in self.purchases:
-            print(f'{purchase['Product']} : {purchase['Purchases']}')
+            print(f'{purchase['Product']}\nNumber of sales: {purchase['Purchases']}')
+
+
+    def show_receipts(self) -> None:
+        """
+        This function prints all receipts
+        """
+        for receipt in self.receipts:
+            print(f'Customer:\n{receipt['Customer']}')
+            print(f'Product:\n{receipt['Product']}')
+            print(f'Purchased date:\n{str(receipt['Date'])}')
+            print('----------------------------------')
 
 
     def add_customer(self, customer: Customer):
@@ -59,8 +72,7 @@ class ShoppingMall:
         self.purchases.append(
             {
                 'Product': product,
-                'Purchases': 0,
-                'Date': None
+                'Purchases': 0
             }
         )
 
@@ -112,6 +124,30 @@ class ShoppingMall:
         )
         self.sell_product(product=product)
 
+        self.receipts.append(
+            {
+                'Customer': customer,
+                'Product': product,
+                'Date': date
+            }
+        )
+
+
+    def top_five_sales(self) -> list:
+        """Returns top five sales list of products"""
+
+
+    def max_purchased(self) -> Product:
+        """Returns a dictionary with must purchased"""
+        temp = {
+                'Product': None,
+                'Purchases': 0
+        }
+        for purchase in self.purchases:
+            if purchase['Purchases'] > temp['Purchases']:
+                temp = purchase
+
+        return temp
 
 
     def sell_product(self, product: Product):
