@@ -74,7 +74,7 @@ class Customer:
         return len(self.bought_products)
 
 
-    def purchase_each_month_of_year(self, product: str):
+    def purchase_each_month_of_year(self, product: Product):
         """
         Calculates number of purchases for each month in a year
         """
@@ -112,14 +112,14 @@ class Customer:
         return number_each_month
 
 
-    def find_product_in_purchased(self, product: str) -> list:
+    def find_product_in_purchased(self, product: Product) -> list:
         """
         find all items of the product in bought list
         """
         result = list()
 
         for purchased in self.bought_products:
-            if purchased['Product'].product_name == product:
+            if purchased['Product'].product_name == product.product_name:
                 result.append(purchased)
 
         return result
