@@ -43,6 +43,8 @@ class ShoppingMall:
         """
         Add new customer to the shopping mall list
         """
+        if self.find_customer_by_id(customer.customer_id):
+            raise AttributeError('There is a customer with such id!')
         self.customers.append(customer)
 
 
@@ -50,6 +52,9 @@ class ShoppingMall:
         """
         Add new product to the shopping mall list
         """
+        if self.find_product_by_id(product.product_id):
+            raise AttributeError('There is a product with such id!')
+
         self.products.append(product)
         self.purchases.append(
             {
