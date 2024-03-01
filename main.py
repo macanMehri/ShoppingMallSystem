@@ -6,6 +6,8 @@ import random
 from CONSTANTS import CURRENT_YEAR
 import jdatetime
 from operator import add
+import matplotlib
+import matplotlib.pyplot as plt
 
 
 names = [
@@ -92,19 +94,38 @@ def each_month(product: str, mall: ShoppingMall) -> None:
     return final_result
 
 
+def create_purchase_diagram(purchases: list, time: list):
+    """
+    Create a diagram of purchases and times
+    """
+    plt.bar(time, purchases, color='#47071e')
+    plt.xlabel('Month')
+    plt.ylabel('Purchases')
+
+
 if __name__ == '__main__':
     # Create random customers
-    mall = ShoppingMall()
-    create_products(mall=mall)
-    create_random_customers(mall=mall)
-    customer_buy_random(mall=mall)
+    shopping_mall = ShoppingMall()
+    create_products(mall=shopping_mall)
+    create_random_customers(mall=shopping_mall)
+    customer_buy_random(mall=shopping_mall)
 
     #mall.show_customers()
     #mall.show_products()
-    mall.show_purchases()
+    shopping_mall.show_purchases()
 
     product_name = input(
         'Please enter a product name to see products sells each month for a year: '
     )
-    purchases_each_month = each_month(product=product_name, mall=mall)
-    print(purchases_each_month)
+    purchases_each_month = each_month(product=product_name, mall=shopping_mall)
+    # A list of purchases in last year
+    # Each index shows the month index
+    last_year_purchase = purchases_each_month
+
+    print(last_year_purchase)
+
+    create_purchase_diagram(
+        purchases=last_year_purchase,
+        time=[i for i in range(1, 13)]
+    )
+    plt.show()
