@@ -159,58 +159,93 @@ if __name__ == '__main__':
         '8. Show a customer purchases diagram.\n'
         '9. Show a product price changes diagram.\n'
         '10. Change a product price.\n'
-        '0. Exit!'
+        '11. Add new customer.\n'
+        '12. Add new product.'
     )
 
-    order = int(input('Please enter your order: '))
-    match order:
-        case 1:
-            shopping_mall.show_customers()
-        case 2:
-            shopping_mall.show_products()
-        case 3:
-            shopping_mall.show_purchases()
-        case 4:
-            customer_id = int(input('Please enter a customer id: '))
-            user_customer = shopping_mall.find_customer_by_id(customer_id=customer_id)
-            print(user_customer)
-        case 5:
-            product_id = int(input('Please enter a product id: '))
-            user_product = shopping_mall.find_product_by_id(product_id=product_id)
-            print(user_product)
-        case 6:
-            product_name = input('Please enter a product name: ')
-            user_product = shopping_mall.find_product_by_name(product_name=product_name)
-            print(user_product)
-        case 7:
-            product_name = input('Please enter a product name: ')
-            user_product = shopping_mall.find_product_by_name(product_name=product_name)
-            purchases_each_month = each_month(product=user_product, mall=shopping_mall)
-            create_diagram(
-                purchases=purchases_each_month,
-                time=[i for i in range(1, 13)],
-                ylabel='Purchases'
-            )
-            plt.show()
-        case 8:
-            customer_id = int(input('Please enter a customer id: '))
-            user_customer = shopping_mall.find_customer_by_id(customer_id=customer_id)
-            customer_purchese = customer_purchases(customer=user_customer, mall=shopping_mall)
-            create_diagram(
-                purchases=customer_purchese,
-                time=[i for i in range(1, 13)],
-                ylabel='Customer purcheses'
-            )
-            plt.show()
-        case 9:
-            product_name = input('Please enter a product name: ')
-            user_product = shopping_mall.find_product_by_name(product_name=product_name)
-            price_changes = each_month_price(product=user_product)
-            create_diagram(
-                purchases=price_changes,
-                time=[i for i in range(1, 13)],
-                ylabel='Prices'
-            )
-            plt.show()
-        case 10:
-            pass
+    try:
+        order = int(input('Please enter your order: '))
+        match order:
+            case 1:
+                shopping_mall.show_customers()
+            case 2:
+                shopping_mall.show_products()
+            case 3:
+                shopping_mall.show_purchases()
+            case 4:
+                while True:
+                    customer_id = int(input('Please enter a customer id: '))
+                    user_customer = shopping_mall.find_customer_by_id(customer_id=customer_id)
+                    if user_customer:
+                        break
+                    print('There is no such customer! Please try again.')
+                print(user_customer)
+            case 5:
+                while True:
+                    product_id = int(input('Please enter a product id: '))
+                    user_product = shopping_mall.find_product_by_id(product_id=product_id)
+                    if user_product:
+                        break
+                    print('There is no such product! Please try again.')
+                print(user_product)
+            case 6:
+                while True:
+                    product_name = input('Please enter a product name: ')
+                    user_product = shopping_mall.find_product_by_name(product_name=product_name)
+                    if user_product:
+                        break
+                    print('There is no such product! Please try again.')
+                print(user_product)
+            case 7:
+                while True:
+                    product_name = input('Please enter a product name: ')
+                    user_product = shopping_mall.find_product_by_name(product_name=product_name)
+                    if user_product:
+                        break
+                    print('There is no such product! Please try again.')
+                purchases_each_month = each_month(product=user_product, mall=shopping_mall)
+                create_diagram(
+                    purchases=purchases_each_month,
+                    time=[i for i in range(1, 13)],
+                    ylabel='Purchases'
+                )
+                plt.show()
+            case 8:
+                while True:
+                    customer_id = int(input('Please enter a customer id: '))
+                    user_customer = shopping_mall.find_customer_by_id(customer_id=customer_id)
+                    if user_customer:
+                        break
+                    print('There is no such customer! Please try again.')
+                customer_purchese = customer_purchases(customer=user_customer, mall=shopping_mall)
+                create_diagram(
+                    purchases=customer_purchese,
+                    time=[i for i in range(1, 13)],
+                    ylabel='Customer purcheses'
+                )
+                plt.show()
+            case 9:
+                while True:
+                    product_name = input('Please enter a product name: ')
+                    user_product = shopping_mall.find_product_by_name(product_name=product_name)
+                    if user_product:
+                        break
+                    print('There is no such product added to mall system! Please try again.')
+                price_changes = each_month_price(product=user_product)
+                create_diagram(
+                    purchases=price_changes,
+                    time=[i for i in range(1, 13)],
+                    ylabel='Prices'
+                )
+                plt.show()
+            case 10:
+                pass
+            case 11:
+                pass
+            case 12:
+                pass
+
+    except AttributeError as error:
+        print('AttributeError:', error)
+    except ValueError as error:
+        print('ValueError:', error)
