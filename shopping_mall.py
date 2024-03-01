@@ -78,6 +78,15 @@ class ShoppingMall:
                 return product
 
 
+    def find_product_by_name(self, product_name: str) -> Product:
+        """
+        Find a product by its name
+        """
+        for product in self.products:
+            if product.product_name == product_name:
+                return product
+
+
     def customer_buy_product(self, customer: Customer, product: Product, date: jdatetime.date):
         """
         A customer purchases a product
