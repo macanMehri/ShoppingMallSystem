@@ -1,6 +1,7 @@
 from customer import Customer
 from product import Product
 import jdatetime
+from CONSTANTS import CURRENT_YEAR
 
 
 
@@ -135,15 +136,24 @@ class ShoppingMall:
 
     def top_five_sales(self) -> list:
         """Returns top five sales list of products"""
+        temp = self.purchases
+        top_five = list()
+        for i in range(5):
+            maximum = self.max_purchased(purchases=temp)
+            top_five.append(maximum)
+            temp.remove(maximum)
+
+        return top_five
 
 
-    def max_purchased(self) -> Product:
+
+    def max_purchased(self, purchases: list) -> dict:
         """Returns a dictionary with must purchased"""
         temp = {
                 'Product': None,
                 'Purchases': 0
         }
-        for purchase in self.purchases:
+        for purchase in purchases:
             if purchase['Purchases'] > temp['Purchases']:
                 temp = purchase
 
@@ -157,6 +167,27 @@ class ShoppingMall:
         for purchase in self.purchases:
             if purchase['Product'].product_id == product.product_id:
                 purchase['Purchases'] += 1
+
+
+    def each_month_purchases(self) -> list:
+        """Returns a list of numbers for sales of each month of year"""
+        result = list()
+        for month in range(12):
+            purchases = self.purchases_in_a_month(month=month+1)
+            result.append(purchases)
+
+        return result
+
+
+
+    def purchases_in_a_month(self, month: int) -> int:
+        """Returns number of sales of a month"""
+        total_purchase = 0
+        for receipt in self.receipts:
+            if receipt['Date'].month == month and receipt['Date'].year == CURRENT_YEAR:
+                total_purchase += 1
+
+        return total_purchase
 
 
 if __name__ == '__main__':
