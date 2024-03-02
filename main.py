@@ -131,13 +131,15 @@ def each_month(product: Product, mall: ShoppingMall) -> list:
     return final_result
 
 
-def create_diagram(y: list, x: list, ylabel: str, xlabel: str='Month') -> None:
+def create_diagram(y: list, x: list, ylabel: str, titel: str, xlabel: str='Month') -> None:
     """
     Create a diagram of purchases and times
     """
-    plt.bar(x, y, color='#47071e', width=0.9)
+    plt.figure(figsize=(12, 6), num='Diagram')
+    plt.bar(x, y, color='#47071e', width=0.5)
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
+    plt.title(titel)
 
 
 def create_customer(mall: ShoppingMall) -> None:
@@ -226,6 +228,7 @@ def show_three_diagrams() -> None:
     five most purchased, total number of sales and total money earned
     """
     figure, axis = plt.subplots(1, 3)
+
 
     monthly_sale = shopping_mall.each_month_purchases()
     monthly_earning = shopping_mall.each_month_earnings()
@@ -362,7 +365,8 @@ if __name__ == '__main__':
                     create_diagram(
                         y=purchases_each_month,
                         x=list(range(1, len(purchases_each_month)+1)),
-                        ylabel='Purchases'
+                        ylabel='Purchases',
+                        titel='Purchase Per Month'
                     )
                     plt.show()
                 case 9:
@@ -379,7 +383,8 @@ if __name__ == '__main__':
                     create_diagram(
                         y=customer_purchese,
                         x=list(range(1, len(customer_purchese)+1)),
-                        ylabel='Customer purcheses'
+                        ylabel='Customer purcheses',
+                        titel='Customer Purchases'
                     )
                     plt.show()
                 case 10:
@@ -393,7 +398,8 @@ if __name__ == '__main__':
                     create_diagram(
                         y=price_changes,
                         x=list(range(1, len(price_changes)+1)),
-                        ylabel='Prices'
+                        ylabel='Prices',
+                        titel='Price Changes'
                     )
                     plt.show()
                 case 11:
@@ -429,7 +435,8 @@ if __name__ == '__main__':
                         y=purchases,
                         x=names,
                         ylabel='Number of purchases',
-                        xlabel='Products'
+                        xlabel='Products',
+                        titel='Customer Products Purchased Per Month'
                     )
                     plt.show()
                 case 15:
@@ -444,6 +451,7 @@ if __name__ == '__main__':
                         y=spent_money,
                         x=list(range(1, len(spent_money)+1)),
                         ylabel='Spent money',
+                        titel='Customers Purchases Price Each Month.'
                     )
                     plt.show()
                 case 16:
@@ -463,7 +471,8 @@ if __name__ == '__main__':
                         y=purchases,
                         x=names,
                         ylabel='Number of purchases',
-                        xlabel='Products'
+                        xlabel='Products',
+                        titel='Five Most Purchased Products'
                     )
                     plt.show()
                 case 19:
@@ -471,7 +480,8 @@ if __name__ == '__main__':
                     create_diagram(
                         y=monthly_sale,
                         x=list(range(1, len(monthly_sale)+1)),
-                        ylabel='Purchases'
+                        ylabel='Purchases',
+                        titel='Total Number Of Sales Of A Year'
                     )
                     plt.show()
                 case 20:
@@ -479,7 +489,8 @@ if __name__ == '__main__':
                     create_diagram(
                         y=monthly_earning,
                         x=list(range(1, len(monthly_earning)+1)),
-                        ylabel='Purchases'
+                        ylabel='Purchases',
+                        titel='Total Money Earned In Last Year'
                     )
                     plt.show()
                 case 21:
