@@ -1,3 +1,4 @@
+from argparse import ArgumentParser
 import logging
 from customer import Customer
 from product import Product
@@ -8,6 +9,7 @@ import jdatetime
 from operator import add
 import matplotlib
 import matplotlib.pyplot as plt
+import sys
 
 
 # Logging configuration
@@ -218,6 +220,56 @@ def get_product_names(mall: ShoppingMall) -> list:
     return result
 
 
+def show_three_diagrams() -> None:
+    """
+    Shows three diagrams of:
+    five most purchased, total number of sales and total money earned
+    """
+    figure, axis = plt.subplots(1, 3)
+
+    monthly_sale = shopping_mall.each_month_purchases()
+    monthly_earning = shopping_mall.each_month_earnings()
+    names, purchases = get_info_of_top_five()
+
+    months = list(range(1, len(monthly_sale)+1))
+
+    # For monthly sales
+    axis[0].bar(months, monthly_sale)
+    axis[0].set_title('Monthly Sales')
+
+    # For monthly earning
+    axis[1].bar(months, monthly_earning)
+    axis[1].set_title('Monthly Earning')
+
+    # For top five sales
+    axis[2].bar(names, purchases)
+    axis[2].set_title('Top five sales')
+
+    plt.show()
+
+
+
+def pass_arguments():
+    """Parses arguments and performs actions based on them."""
+    parser = ArgumentParser(add_help=False)
+    run_args_help = (
+        'Show three diagrams of five most purchased, total number of sales and total money earned.'
+    )
+    help_args_help = (
+        'If you want to see three diagrams you can use -r argument.'
+    )
+    parser.add_argument('-r', '--report', action='store_true', help=run_args_help)
+    parser.add_argument('-h', '--help', action='store_true', help=help_args_help)
+
+    args = parser.parse_args()
+
+    if args.report:
+        show_three_diagrams()
+    elif args.help:
+        parser.print_help()
+
+
+
 
 if __name__ == '__main__':
     # Create a shopping mall
@@ -230,6 +282,11 @@ if __name__ == '__main__':
     customer_buy_random(mall=shopping_mall)
     # Change prices randomlly
     change_prices_random(mall=shopping_mall)
+
+
+    if len(sys.argv) > 1:
+        pass_arguments()
+        sys.exit()
 
 
 
@@ -426,27 +483,7 @@ if __name__ == '__main__':
                     )
                     plt.show()
                 case 21:
-                    figure, axis = plt.subplots(1, 3)
-
-                    monthly_sale = shopping_mall.each_month_purchases()
-                    monthly_earning = shopping_mall.each_month_earnings()
-                    names, purchases = get_info_of_top_five()
-
-                    months = list(range(1, len(monthly_sale)+1))
-
-                    # For monthly sales
-                    axis[0].bar(months, monthly_sale)
-                    axis[0].set_title('Monthly Sales')
-
-                    # For monthly earning
-                    axis[1].bar(months, monthly_earning)
-                    axis[1].set_title('Monthly Earning')
-
-                    # For top five sales
-                    axis[2].bar(names, purchases)
-                    axis[2].set_title('Top five sales')
-
-                    plt.show()
+                    show_three_diagrams()
                 case 0:
                     break
 
