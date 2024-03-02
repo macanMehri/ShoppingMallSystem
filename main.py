@@ -133,7 +133,7 @@ def create_diagram(y: list, x: list, ylabel: str, xlabel: str='Month') -> None:
     """
     Create a diagram of purchases and times
     """
-    plt.bar(x, y, color='#47071e', width=0.8)
+    plt.bar(x, y, color='#47071e', width=0.9)
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
 
@@ -197,6 +197,18 @@ def create_product(mall: ShoppingMall) -> None:
     mall.add_product(product=product)
 
 
+
+def get_info_of_top_five():
+    """Returns two lists of top five product names and sales"""
+    top_five_purchases = shopping_mall.top_five_sales()
+    names = list()
+    purchases = list()
+    for purchase in top_five_purchases:
+        names.append(purchase['Product'].product_name)
+        purchases.append(purchase['Purchases'])
+    return names, purchases
+
+
 def get_product_names(mall: ShoppingMall) -> list:
     """Returns a list of product names"""
     result = list()
@@ -243,6 +255,8 @@ if __name__ == '__main__':
             '18. Show diagram of five most purchased products.\n'
             '19. Show diagram of total number of sales of a year.\n'
             '20. Show diagram of total money earned in a year.\n'
+            '21. Show three diagrams of five most purchased, total number of sales and '
+            'total money earned.\n'
             '0. Exit!'
         )
         try:
@@ -386,12 +400,8 @@ if __name__ == '__main__':
                         print('Number of purchases', purchase['Purchases'])
                         print('--------------------------------')
                 case 18:
-                    top_five_purchases = shopping_mall.top_five_sales()
-                    names = list()
-                    purchases = list()
-                    for purchase in top_five_purchases:
-                        names.append(purchase['Product'].product_name)
-                        purchases.append(purchase['Purchases'])
+                    names, purchases = get_info_of_top_five()
+
                     create_diagram(
                         y=purchases,
                         x=names,
@@ -414,6 +424,28 @@ if __name__ == '__main__':
                         x=list(range(1, len(monthly_earning)+1)),
                         ylabel='Purchases'
                     )
+                    plt.show()
+                case 21:
+                    figure, axis = plt.subplots(1, 3)
+
+                    monthly_sale = shopping_mall.each_month_purchases()
+                    monthly_earning = shopping_mall.each_month_earnings()
+                    names, purchases = get_info_of_top_five()
+
+                    months = list(range(1, len(monthly_sale)+1))
+
+                    # For monthly sales
+                    axis[0].bar(months, monthly_sale)
+                    axis[0].set_title('Monthly Sales')
+
+                    # For monthly earning
+                    axis[1].bar(months, monthly_earning)
+                    axis[1].set_title('Monthly Earning')
+
+                    # For top five sales
+                    axis[2].bar(names, purchases)
+                    axis[2].set_title('Top five sales')
+
                     plt.show()
                 case 0:
                     break
